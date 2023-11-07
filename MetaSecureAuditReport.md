@@ -50,7 +50,7 @@ State variable `owner` should be marked as immutable.
 
 ## Summary
 
-The contract has 1 critical, 1 medium and 2 low.
+The contract has 1 critical, 1 medium and 3 low.
 
 ## Disclaimer
 
