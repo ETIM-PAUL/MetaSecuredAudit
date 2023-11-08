@@ -14,10 +14,6 @@ Custodial Wallet Dapp, allows you to create smart wallets. We have a factory con
 #### STEP 2
 - After Wallet creation. You have the option of transferring funds, as well as depositing funds.
 
-
-#### STEP 3
-- REQUEST FOR ACCOUNT RECOVERY / AUTHORIZE RECOVERY
-
 ## Author
 
 Etim Paul
