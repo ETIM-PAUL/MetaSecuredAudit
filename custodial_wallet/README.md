@@ -7,10 +7,6 @@ In this contract, I implemented the ERC-4773 functionality. Where users can come
 Custodial Wallet Dapp, allows you to create smart wallets. We have a factory contract that spurns smart wallets for users. This wallets (Custodial Wallet Contract instance) is tie to your EOA, you can deposit funds into it, send out funds to any wallet as well as view your balance.
 
 
-## LIVE LINK
-https://erc-4337-account-abstraction-wallet.vercel.app/
-
-
 ## Executing program
 #### STEP 1
 - The First step is to create a smart wallet.
