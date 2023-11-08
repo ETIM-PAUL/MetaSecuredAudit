@@ -59,12 +59,17 @@ function App() {
   const readAccountDetails = async () => {
     const tx = await Contract.hasAnAccountAndReturn(address);
     console.log(tx)
-    setChildContract(tx)
-    const ChildContract = new ethers.Contract(tx, childAbi, provider);
+    if (tx === "0x0000000000000000000000000000000000000000") {
+      setChildContract(null)
+    } else {
+      setChildContract(tx)
+    }
+    if (tx !== "0x0000000000000000000000000000000000000000") {
+      const ChildContract = new ethers.Contract(tx, childAbi, provider);
 
-    const bal = await ChildContract.getDeposit();
-    setBalance(ethers.formatEther(bal));
-    setChildContract(tx)
+      const bal = await ChildContract.getDeposit();
+      setBalance(ethers.formatEther(bal));
+    }
   }
 
   useEffect(() => {
@@ -85,9 +90,11 @@ function App() {
       setTransferState(true);
       const ChildContract = new ethers.Contract(childContract, childAbi, signer);
 
-      await ChildContract.withdrawDepositTo({ value: ethers.parseEther(amountVal) });
+      await ChildContract.withdrawDepositTo(benefactor, ethers.parseEther(amountVal));
       setTransferState(false);
+      setAmountVal("");
       toast.success("Funds Transferred successfully")
+      readAccountDetails();
     } catch (error) {
       console.log(error);
       setTransferState(false);
@@ -101,8 +108,11 @@ function App() {
       const ChildContract = new ethers.Contract(childContract, childAbi, signer);
 
       await ChildContract.addDeposit({ value: ethers.parseEther(amountVal) });
+      setAmountVal("");
+      setBenefactor("")
       setDepositState(false);
       toast.success("Funds Deposited successfully")
+      readAccountDetails();
 
     } catch (error) {
       console.log(error);
@@ -122,7 +132,7 @@ function App() {
         }
 
         <div>
-          {(isConnected && childContract) === null &&
+          {isConnected && childContract === null &&
             <div className="form-control">
               <button disabled={creatingWallet} onClick={() => createWallet()} className={`${creatingWallet && "hover:cursor-not-allowed text-white"} btn btn-md w-24 md:w-auto text-white`}>
                 {creatingWallet &&
@@ -132,7 +142,7 @@ function App() {
               </button>
             </div>
           }
-          {(childContract) !== null &&
+          {childContract !== null &&
             <div className='flex gap-4'>
               <button className="btn">
                 Balance:
